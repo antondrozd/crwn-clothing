@@ -3,6 +3,8 @@ import { Component } from 'react'
 import FormInput from '../form-input/form-input.component'
 import Button from '../button/button.component'
 
+import { auth } from '../../firebase/firebase.utils'
+
 import './sign-in.styles.scss'
 
 class SignIn extends Component {
@@ -11,14 +13,26 @@ class SignIn extends Component {
     password: '',
   }
 
+  initialState = this.state
+
   handleChange = (event) => {
     const { name, value } = event.target
 
     this.setState({ [name]: value })
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault()
+
+    const { email, password } = this.state
+
+    try {
+      await auth.signInWithEmailAndPassword(email, password)
+
+      this.setState(this.initialState)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   render() {

@@ -3,6 +3,8 @@ import { Component } from 'react'
 import FormInput from '../form-input/form-input.component'
 import Button from '../button/button.component'
 
+import { auth, createUserProfileDocument } from '../../firebase/firebase.utils'
+
 import './sign-up.styles.scss'
 
 class SignUp extends Component {
@@ -13,6 +15,8 @@ class SignUp extends Component {
     confirmPassword: '',
   }
 
+  initilState = this.state
+
   handleChange = (event) => {
     const { name, value } = event.target
 
@@ -22,11 +26,24 @@ class SignUp extends Component {
   handleSubmit = async (event) => {
     event.preventDefault()
 
-    const { password, confirmPassword } = this.state
+    const { displayName, email, password, confirmPassword } = this.state
 
     if (password !== confirmPassword) {
       alert("Passwords don't match")
       return
+    }
+
+    try {
+      const { user } = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      )
+
+      await createUserProfileDocument(user, { displayName })
+
+      this.setState(this.initilState)
+    } catch (error) {
+      console.error(error)
     }
   }
 
