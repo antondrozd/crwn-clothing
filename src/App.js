@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 
@@ -40,16 +40,27 @@ class App extends Component {
       <>
         <Header />
         <Switch>
-          <Route exact path="/" component={HomePage}></Route>
-          <Route path="/signin" component={SignInAndSignUpPage}></Route>
+          <Route exact path="/" component={HomePage} />
+          <Route
+            path="/signin"
+            render={() =>
+              this.props.currentUser ? (
+                <Redirect to="/" />
+              ) : (
+                <SignInAndSignUpPage />
+              )
+            }
+          />
         </Switch>
       </>
     )
   }
 }
 
+const mapStateToProps = ({ user }) => ({ currentUser: user.currentUser })
+
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 })
 
-export default connect(null, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)
