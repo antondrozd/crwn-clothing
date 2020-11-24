@@ -5,6 +5,7 @@ import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 
 import Header from './components/header/header.component'
 import HomePage from './pages/home/home.page'
+import ShopPage from './pages/shop/shop.page'
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.page'
 import { setCurrentUser } from './redux/user/user.actions'
 
@@ -41,6 +42,7 @@ class App extends Component {
         <Header />
         <Switch>
           <Route exact path="/" component={HomePage} />
+          <Route path="/shop" component={ShopPage} />
           <Route
             path="/signin"
             render={() =>
