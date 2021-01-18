@@ -13,6 +13,10 @@ import CollectionPage from '../../pages/collection/collection.page'
 class ShopPage extends Component {
   unsubscribeFromOnSnapshot = null
 
+  state = {
+    isLoading: true,
+  }
+
   componentDidMount() {
     const { updateCollections } = this.props
     const collectionRef = firestore.collection('collections')
@@ -21,6 +25,7 @@ class ShopPage extends Component {
       const collectionsMap = convertCollectionsSnapshotToMap(snapshot)
 
       updateCollections(collectionsMap)
+      this.setState({ isLoading: false })
     })
   }
 
@@ -30,13 +35,22 @@ class ShopPage extends Component {
 
   render() {
     const { match } = this.props
+    const { isLoading } = this.state
 
     return (
       <div className="shop-page">
-        <Route exact path={`${match.path}`} component={CollectionsOverview} />
+        <Route
+          exact
+          path={`${match.path}`}
+          render={(props) => (
+            <CollectionsOverview isLoading={isLoading} {...props} />
+          )}
+        />
         <Route
           path={`${match.path}/:collectionRouteName`}
-          component={CollectionPage}
+          render={(props) => (
+            <CollectionPage isLoading={isLoading} {...props} />
+          )}
         />
       </div>
     )

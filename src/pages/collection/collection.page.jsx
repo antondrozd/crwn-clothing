@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 
+import withSpinner from '../../HOCs/with-spinner/with-spinner.hoc'
 import { selectShopCollection } from '../../redux/shop/shop.selectors'
 import CollectionItem from '../../components/collection-item/collection-item.component'
 
@@ -22,4 +23,4 @@ const mapStateToProps = (state, ownProps) => ({
   ),
 })
 
-export default connect(mapStateToProps)(CollectionPage)
+export default withSpinner(connect(mapStateToProps)(CollectionPage))

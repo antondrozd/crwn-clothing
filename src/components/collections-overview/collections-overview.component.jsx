@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 
+import withSpinner from '../../HOCs/with-spinner/with-spinner.hoc'
 import { selectShopCollectionsAsArray } from '../../redux/shop/shop.selectors'
 import CollectionPreview from '../collection-preview/collection-preview.component'
 
@@ -17,4 +18,4 @@ const mapStateToProps = (state) => ({
   collections: selectShopCollectionsAsArray(state),
 })
 
-export default connect(mapStateToProps)(CollectionsOverview)
+export default withSpinner(connect(mapStateToProps)(CollectionsOverview))
