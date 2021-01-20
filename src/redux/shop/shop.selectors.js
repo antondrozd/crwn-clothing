@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { values } from 'lodash'
+import { values, isEmpty } from 'lodash'
 
 export const selectShop = (state) => state.shop
 
@@ -12,3 +12,9 @@ export const selectShopCollectionsAsArray = createSelector(
 
 export const selectShopCollection = (collectionRouteName) => (state) =>
   selectShopCollections(state)[collectionRouteName]
+
+export const selectIsCollectionsFetching = (state) =>
+  selectShop(state).isFetching
+
+export const selectIsCollectionsLoaded = (state) =>
+  !isEmpty(selectShopCollections(state))

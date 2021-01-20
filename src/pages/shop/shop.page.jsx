@@ -2,59 +2,32 @@ import { Component } from 'react'
 import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import {
-  firestore,
-  convertCollectionsSnapshotToMap,
-} from '../../firebase/firebase.utils'
-import { updateCollections } from '../../redux/shop/shop.actions'
-import CollectionsOverview from '../../components/collections-overview/collections-overview.component'
-import CollectionPage from '../../pages/collection/collection.page'
+import { fetchCollections } from '../../redux/shop/shop.actions'
+import CollectionsOverviewContainer from '../../components/collections-overview/collections-overview.container'
+import CollectionPageContainer from '../../pages/collection/collection.container'
 
 class ShopPage extends Component {
-  unsubscribeFromOnSnapshot = null
-
-  state = {
-    isLoading: true,
-  }
-
   componentDidMount() {
-    const { updateCollections } = this.props
-    const collectionRef = firestore.collection('collections')
-
-    this.unsubscribeFromOnSnapshot = collectionRef.onSnapshot((snapshot) => {
-      const collectionsMap = convertCollectionsSnapshotToMap(snapshot)
-
-      updateCollections(collectionsMap)
-      this.setState({ isLoading: false })
-    })
-  }
-
-  componentWillUnmount() {
-    this.unsubscribeFromOnSnapshot()
+    this.props.fetchCollections()
   }
 
   render() {
     const { match } = this.props
-    const { isLoading } = this.state
 
     return (
       <div className="shop-page">
         <Route
           exact
           path={`${match.path}`}
-          render={(props) => (
-            <CollectionsOverview isLoading={isLoading} {...props} />
-          )}
+          component={CollectionsOverviewContainer}
         />
         <Route
           path={`${match.path}/:collectionRouteName`}
-          render={(props) => (
-            <CollectionPage isLoading={isLoading} {...props} />
-          )}
+          component={CollectionPageContainer}
         />
       </div>
     )
   }
 }
 
-export default connect(null, { updateCollections })(ShopPage)
+export default connect(null, { fetchCollections })(ShopPage)
