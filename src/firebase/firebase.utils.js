@@ -20,11 +20,17 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   const userSnapShot = await userDocRef.get()
 
   if (!userSnapShot.exists) {
-    const { displayName, email } = userAuth
+    const { displayName, email, photoURL } = userAuth
     const createdAt = new Date()
 
     try {
-      await userDocRef.set({ displayName, email, createdAt, ...additionalData })
+      await userDocRef.set({
+        displayName,
+        email,
+        photoURL,
+        createdAt,
+        ...additionalData,
+      })
     } catch (error) {
       console.error(error)
     }
@@ -56,8 +62,23 @@ firebase.initializeApp(config)
 export const auth = firebase.auth()
 export const firestore = firebase.firestore()
 
-const provider = new firebase.auth.GoogleAuthProvider()
-provider.setCustomParameters({ prompt: 'select_account' })
-export const signInWithGoogle = () => auth.signInWithPopup(provider)
+export const getCollectionRef = (name) => firestore.collection(name)
+
+const googleProvider = new firebase.auth.GoogleAuthProvider()
+googleProvider.setCustomParameters({ prompt: 'select_account' })
+
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider)
+export const signInWithEmail = ({ email, password }) => {
+  return auth.signInWithEmailAndPassword(email, password)
+}
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      unsubscribe()
+      resolve(userAuth)
+    }, reject)
+  })
+}
+export const signOut = () => auth.signOut()
 
 export default firebase

@@ -24,4 +24,11 @@
       cursor: pointer;
     }
   }
+
+  .photo {
+    img {
+      border-radius: 50%;
+      height: 42px;
+    }
+  }
 }

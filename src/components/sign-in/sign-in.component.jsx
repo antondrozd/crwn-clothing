@@ -1,9 +1,13 @@
 import { Component } from 'react'
+import { connect } from 'react-redux'
 
 import FormInput from '../form-input/form-input.component'
 import Button from '../button/button.component'
 
-import { auth, signInWithGoogle } from '../../firebase/firebase.utils'
+import {
+  googleSignInStart,
+  emailSignInStart,
+} from '../../redux/user/user.actions'
 
 import './sign-in.styles.scss'
 
@@ -24,18 +28,15 @@ class SignIn extends Component {
   handleSubmit = async (event) => {
     event.preventDefault()
 
+    const { emailSignInStart } = this.props
     const { email, password } = this.state
 
-    try {
-      await auth.signInWithEmailAndPassword(email, password)
-
-      this.setState(this.initialState)
-    } catch (error) {
-      console.error(error)
-    }
+    emailSignInStart({ email, password })
+    this.setState(this.initialState)
   }
 
   render() {
+    const { googleSignInStart } = this.props
     const { email, password } = this.state
 
     return (
@@ -62,7 +63,7 @@ class SignIn extends Component {
           />
           <div className="buttons">
             <Button type="submit">Sign in</Button>
-            <Button type="button" onClick={signInWithGoogle} isGoogleSignIn>
+            <Button type="button" onClick={googleSignInStart} isGoogleSignIn>
               Sign in with Google
             </Button>
           </div>
@@ -72,4 +73,4 @@ class SignIn extends Component {
   }
 }
 
-export default SignIn
+export default connect(null, { googleSignInStart, emailSignInStart })(SignIn)
