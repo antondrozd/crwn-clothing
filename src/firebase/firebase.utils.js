@@ -68,9 +68,8 @@ const googleProvider = new firebase.auth.GoogleAuthProvider()
 googleProvider.setCustomParameters({ prompt: 'select_account' })
 
 export const signInWithGoogle = () => auth.signInWithPopup(googleProvider)
-export const signInWithEmail = ({ email, password }) => {
-  return auth.signInWithEmailAndPassword(email, password)
-}
+export const signInWithEmail = ({ email, password }) =>
+  auth.signInWithEmailAndPassword(email, password)
 export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
@@ -80,5 +79,7 @@ export const getCurrentUser = () => {
   })
 }
 export const signOut = () => auth.signOut()
+export const signUp = ({ email, password }) =>
+  auth.createUserWithEmailAndPassword(email, password)
 
 export default firebase

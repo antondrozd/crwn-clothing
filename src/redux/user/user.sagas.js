@@ -6,6 +6,8 @@ import {
   signInFailure,
   signOutSuccess,
   signOutFailure,
+  signUpSuccess,
+  signUpFailure,
 } from './user.actions'
 import { clearCart } from '../cart/cart.actions'
 import {
@@ -14,6 +16,7 @@ import {
   createUserProfileDocument,
   getCurrentUser,
   signOut as signOutFirebase,
+  signUp as signUpFirebase,
 } from '../../firebase/firebase.utils'
 
 function* getAndPutUserSnapshot(userAuth) {
@@ -67,6 +70,28 @@ function* signOut() {
   }
 }
 
+function* signUp({ payload: userCredentials }) {
+  const { displayName, email, password } = userCredentials
+
+  try {
+    const { user: userAuth } = yield call(signUpFirebase, { email, password })
+    yield call(createUserProfileDocument, userAuth, {
+      displayName,
+    })
+    yield put(signUpSuccess(userAuth))
+  } catch (error) {
+    yield put(signUpFailure(error))
+  }
+}
+
+function* signInAfterSignUp({ payload: userAuth }) {
+  try {
+    yield getAndPutUserSnapshot(userAuth)
+  } catch (error) {
+    yield put(signInFailure(error))
+  }
+}
+
 function* onGoogleSignInStart() {
   yield takeLatest(userActionTypes.GOOGLE_SIGN_IN_START, signInWithGoogle)
 }
@@ -83,11 +108,21 @@ function* onSignOutStart() {
   yield takeLatest(userActionTypes.SIGN_OUT_START, signOut)
 }
 
+function* onSignUpStart() {
+  yield takeLatest(userActionTypes.SIGN_UP_START, signUp)
+}
+
+function* onSignUpSuccess() {
+  yield takeLatest(userActionTypes.SIGN_UP_SUCCESS, signInAfterSignUp)
+}
+
 export function* userSagas() {
   yield all([
     onGoogleSignInStart(),
     onEmailSignInStart(),
     onCheckUserSession(),
     onSignOutStart(),
+    onSignUpStart(),
+    onSignUpSuccess(),
   ])
 }
