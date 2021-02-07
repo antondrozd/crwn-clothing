@@ -7,6 +7,7 @@ import {
   signOutSuccess,
   signOutFailure,
 } from './user.actions'
+import { clearCart } from '../cart/cart.actions'
 import {
   signInWithGoogle as signInWithGoogleFirebase,
   signInWithEmail as signInWithEmailFirebase,
@@ -60,6 +61,7 @@ function* signOut() {
   try {
     yield call(signOutFirebase)
     yield put(signOutSuccess())
+    yield put(clearCart())
   } catch (error) {
     yield put(signOutFailure(error))
   }
