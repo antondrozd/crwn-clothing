@@ -1,25 +1,25 @@
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import { selectShopCollection } from '../../redux/shop/shop.selectors'
 import CollectionItem from '../../components/collection-item/collection-item.component'
 
 import './collection.styles.scss'
 
-const CollectionPage = ({ collection: { title, items } }) => (
-  <div className="collection-page">
-    <h2 className="title">{title}</h2>
-    <div className="items">
-      {items.map((item) => (
-        <CollectionItem key={item.id} item={item} />
-      ))}
+const CollectionPage = ({ match }) => {
+  const { title, items } = useSelector(
+    selectShopCollection(match.params.collectionRouteName)
+  )
+
+  return (
+    <div className="collection-page">
+      <h2 className="title">{title}</h2>
+      <div className="items">
+        {items.map((item) => (
+          <CollectionItem key={item.id} item={item} />
+        ))}
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
-const mapStateToProps = (state, ownProps) => ({
-  collection: selectShopCollection(ownProps.match.params.collectionRouteName)(
-    state
-  ),
-})
-
-export default connect(mapStateToProps)(CollectionPage)
+export default CollectionPage

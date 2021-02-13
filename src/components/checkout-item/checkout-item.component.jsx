@@ -1,4 +1,4 @@
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import {
   addItem,
@@ -8,7 +8,9 @@ import {
 
 import './checkout-item.styles.scss'
 
-const CheckoutItem = ({ cartItem, addItem, removeItem, removeItemsGroup }) => {
+const CheckoutItem = ({ cartItem }) => {
+  const dispatch = useDispatch()
+
   const { name, imageUrl, price, quantity } = cartItem
 
   return (
@@ -18,26 +20,23 @@ const CheckoutItem = ({ cartItem, addItem, removeItem, removeItemsGroup }) => {
       </div>
       <span className="name">{name}</span>
       <span className="quantity">
-        <span className="arrow" onClick={() => removeItem(cartItem)}>
+        <span className="arrow" onClick={() => dispatch(removeItem(cartItem))}>
           &#10094;
         </span>
         <span className="value">{quantity}</span>
-        <span className="arrow" onClick={() => addItem(cartItem)}>
+        <span className="arrow" onClick={() => dispatch(addItem(cartItem))}>
           &#10095;
         </span>
       </span>
       <span className="price">${price}</span>
-      <div className="remove-button" onClick={() => removeItemsGroup(cartItem)}>
+      <div
+        className="remove-button"
+        onClick={() => dispatch(removeItemsGroup(cartItem))}
+      >
         &#10005;
       </div>
     </div>
   )
 }
 
-const actionCreators = {
-  addItem,
-  removeItem,
-  removeItemsGroup,
-}
-
-export default connect(null, actionCreators)(CheckoutItem)
+export default CheckoutItem
