@@ -8,24 +8,24 @@ export const REMOVE_ITEMS_GROUP_FROM_CART = 'REMOVE_ITEMS_GROUP_FROM_CART'
 export const CLEAR_CART = 'CLEAR_CART'
 
 export const toggleCartHidden = (): CartActionTypes => ({
-	type: TOGGLE_CART_HIDDEN,
+  type: TOGGLE_CART_HIDDEN,
 })
 
 export const addItem = (item: CollectionItemType): CartActionTypes => ({
-	type: ADD_ITEM_TO_CART,
-	payload: item,
+  type: ADD_ITEM_TO_CART,
+  payload: item,
 })
 
 export const removeItem = (item: CollectionItemType): CartActionTypes => ({
-	type: REMOVE_ITEM_FROM_CART,
-	payload: item,
+  type: REMOVE_ITEM_FROM_CART,
+  payload: item,
 })
 
 export const removeItemsGroup = (item: CollectionItemType): CartActionTypes => ({
-	type: REMOVE_ITEMS_GROUP_FROM_CART,
-	payload: item,
+  type: REMOVE_ITEMS_GROUP_FROM_CART,
+  payload: item,
 })
 
 export const clearCart = (): CartActionTypes => ({
-	type: CLEAR_CART,
+  type: CLEAR_CART,
 })

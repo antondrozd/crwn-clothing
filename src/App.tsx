@@ -13,28 +13,31 @@ import { selectCurrentUser } from './redux/user/user.selectors'
 import './App.scss'
 
 const App = () => {
-	const currentUser = useSelector(selectCurrentUser)
+  const currentUser = useSelector(selectCurrentUser)
 
-	const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
-	useEffect(() => {
-		dispatch(checkUserSession())
-	}, [dispatch])
+  useEffect(
+    () => {
+      dispatch(checkUserSession())
+    },
+    [dispatch],
+  )
 
-	return (
-		<>
-			<Header />
-			<Switch>
-				<Route exact path="/" component={HomePage} />
-				<Route path="/shop" component={ShopPage} />
-				<Route
-					path="/signin"
-					render={() => (currentUser ? <Redirect to="/" /> : <SignInAndSignUpPage />)}
-				/>
-				<Route path="/checkout" component={CheckoutPage} />
-			</Switch>
-		</>
-	)
+  return (
+    <>
+      <Header />
+      <Switch>
+        <Route exact path="/" component={HomePage} />
+        <Route path="/shop" component={ShopPage} />
+        <Route
+          path="/signin"
+          render={() => (currentUser ? <Redirect to="/" /> : <SignInAndSignUpPage />)}
+        />
+        <Route path="/checkout" component={CheckoutPage} />
+      </Switch>
+    </>
+  )
 }
 
 export default App

@@ -6,8 +6,8 @@ import { DirectoryStateType } from './directory.types'
 import { CartStateType } from './cart.types'
 
 export type StoreStateType = {
-	user: UserStateType
-	cart: CartStateType
-	directory: DirectoryStateType
-	shop: ShopStateType
+  user: UserStateType
+  cart: CartStateType
+  directory: DirectoryStateType
+  shop: ShopStateType
 }

@@ -8,7 +8,7 @@ const withSpinner = (Wrapped) => ({ isLoading, ...otherProps }) => {
       <CircleLoader color={'#9B9B9B'} size={50} />
     </div>
   ) : (
-    <Wrapped {...otherProps}></Wrapped>
+    <Wrapped {...otherProps} />
   )
 }
 

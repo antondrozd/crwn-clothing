@@ -1,11 +1,11 @@
 export type DirectoryStateType = {
-	sections: SectionType[]
+  sections: SectionType[]
 }
 
 export type SectionType = {
-	title: string
-	imageUrl: string
-	size?: string
-	id: number
-	linkUrl: string
+  title: string
+  imageUrl: string
+  size?: string
+  id: number
+  linkUrl: string
 }

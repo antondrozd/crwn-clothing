@@ -5,17 +5,17 @@ export const FETCH_COLLECTIONS_SUCCESS = 'FETCH_COLLECTIONS_SUCCESS'
 export const FETCH_COLLECTIONS_FAILURE = 'FETCH_COLLECTIONS_FAILURE'
 
 export const fetchCollectionsStart = (): ShopActionTypes => ({
-	type: FETCH_COLLECTIONS_START,
+  type: FETCH_COLLECTIONS_START,
 })
 
 export const fetchCollectionsSuccess = (
-	collectionsMap: CollectionsMapType,
+  collectionsMap: CollectionsMapType,
 ): ShopActionTypes => ({
-	type: FETCH_COLLECTIONS_SUCCESS,
-	payload: collectionsMap,
+  type: FETCH_COLLECTIONS_SUCCESS,
+  payload: collectionsMap,
 })
 
 export const fetchCollectionsFailure = (errorMessage: string): ShopActionTypes => ({
-	type: FETCH_COLLECTIONS_FAILURE,
-	payload: errorMessage,
+  type: FETCH_COLLECTIONS_FAILURE,
+  payload: errorMessage,
 })
